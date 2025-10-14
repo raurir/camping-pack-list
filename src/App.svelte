@@ -124,12 +124,12 @@
       <h2 class="text-2xl font-bold text-gray-800 mb-4">
         📋 Your Packing List
       </h2>
-      <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div class="space-y-2">
         {#each packList as item}
-          <div class="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-            <div class="text-5xl mb-2">{item.emoji}</div>
-            <div class="font-semibold text-gray-800">{item.name}</div>
-            <div class="text-2xl font-bold text-green-600 mt-1">{item.count}</div>
+          <div class="grid grid-cols-3 gap-4 items-center bg-gradient-to-br from-green-50 to-blue-50 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="text-5xl text-center">{item.emoji}</div>
+            <div class="font-semibold text-gray-800 text-lg">{item.name}</div>
+            <div class="text-3xl font-bold text-green-600 text-right">{item.count}</div>
           </div>
         {/each}
       </div>
