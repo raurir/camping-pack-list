@@ -39,38 +39,38 @@
 
     // Adjust for swimming
     if (hasSwimming) {
-      swimmers = 2; // Always bring 2 swimmers
-      towels = Math.max(2, Math.ceil(nights * 0.5)); // At least 2 towels, or 1 per 2 nights
+      swimmers = 1; // Always bring 2 swimmers
+      towels = Math.max(1, Math.ceil(nights * 0.25)); // At least 2 towels, or 1 per 2 nights
     }
 
     return [
       { name: 'T-shirts', emoji: '👕', count: tshirts },
-      { name: 'Jumpers', emoji: '🧥', count: jumpers },
+      { name: 'Jumpers', emoji: '🧶', count: jumpers },
       { name: 'Trackpants', emoji: '👖', count: trackpants },
       { name: 'Shorts', emoji: '🩳', count: shorts },
       { name: 'Underpants', emoji: '🩲', count: underpants },
-      { name: 'Socks', emoji: '🧦', count: socks },
+      { name: 'Pairs of Socks', emoji: '🧦', count: socks },
       { name: 'Hat', emoji: '🧢', count: hat },
-      { name: 'Rain Jacket', emoji: '☔', count: rainJacket },
+      { name: 'Rain Jacket', emoji: '🧥', count: rainJacket },
       { name: 'Swimmers', emoji: '🩱', count: swimmers },
-      { name: 'Towels', emoji: '🛁', count: towels },
+      { name: 'Towels', emoji: '🏖️', count: towels },
     ].filter(item => item.count > 0);
   }
 </script>
 
-<main class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-8">
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl font-bold text-center mb-2 text-green-800">
+<main class="min-h-screen bg-gradient-to-br from-amber-100 via-green-100 to-sky-100 py-12 px-6 md:px-16">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-5xl md:text-6xl font-bold text-center mb-6 text-green-700">
       ⛺ Kids Camping Pack List
     </h1>
-    <p class="text-center text-gray-600 mb-8">Figure out what to pack for your adventure!</p>
+    <p class="text-center text-gray-700 mb-16 text-xl">Figure out what to pack for your adventure!</p>
 
     <!-- Input Controls -->
-    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-10 mb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Number of nights -->
         <div>
-          <label for="nights" class="block text-sm font-semibold text-gray-700 mb-2">
+          <label for="nights" class="block text-base font-bold text-gray-700 mb-3">
             🌙 Number of Nights
           </label>
           <input
@@ -79,25 +79,28 @@
             min="1"
             max="14"
             bind:value={nights}
-            class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:outline-none"
+            class="w-full px-5 py-2 border-2 border-gray-300 rounded-xl focus:border-green-500 focus:outline-none text-lg"
+           
           />
         </div>
 
         <!-- Temperature -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">
+          <label class="block text-base font-bold text-gray-700 mb-3">
             🌡️ Temperature
           </label>
-          <div class="flex gap-2">
+          <div class="flex gap-3">
             <button
-              class="flex-1 px-4 py-2 rounded-lg font-medium transition-all {temperature === 'cold' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+              class="flex-1 px-5 py-3 rounded-xl font-bold transition-all {temperature === 'cold' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
               on:click={() => temperature = 'cold'}
+             
             >
               ❄️ Cold
             </button>
             <button
-              class="flex-1 px-4 py-2 rounded-lg font-medium transition-all {temperature === 'hot' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+              class="flex-1 px-5 py-3 rounded-xl font-bold transition-all {temperature === 'hot' ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
               on:click={() => temperature = 'hot'}
+             
             >
               ☀️ Hot
             </button>
@@ -106,12 +109,13 @@
 
         <!-- Swimming -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">
+          <label class="block text-base font-bold text-gray-700 mb-3">
             🏊 Swimming?
           </label>
           <button
-            class="w-full px-4 py-2 rounded-lg font-medium transition-all {swimming ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+            class="w-full px-5 py-3 rounded-xl font-bold transition-all {swimming ? 'bg-cyan-500 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
             on:click={() => swimming = !swimming}
+           
           >
             {swimming ? '✅ Yes' : '❌ No'}
           </button>
@@ -120,25 +124,25 @@
     </div>
 
     <!-- Pack List Grid -->
-    <div class="bg-white rounded-lg shadow-lg p-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">
+    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">
         📋 Your Packing List
       </h2>
-      <div class="space-y-2">
+      <div class="space-y-3">
         {#each packList as item}
-          <div class="grid grid-cols-3 gap-4 items-center bg-gradient-to-br from-green-50 to-blue-50 rounded-lg p-4 hover:shadow-md transition-shadow">
-            <div class="text-5xl text-center">{item.emoji}</div>
-            <div class="font-semibold text-gray-800 text-lg">{item.name}</div>
-            <div class="text-3xl font-bold text-green-600 text-right">{item.count}</div>
+          <div class="grid grid-cols-3 gap-2 items-center bg-gradient-to-r from-yellow-50 via-green-50 to-blue-50 rounded-xl p-2">
+            <div class="text-4xl text-center">{item.emoji}</div>
+            <div class="font-bold text-gray-800 text-xl">{item.name}</div>
+            <div class="text-4xl font-bold text-green-600 text-center">{item.count}</div>
           </div>
         {/each}
       </div>
 
       <!-- Total items count -->
-      <div class="mt-6 pt-6 border-t border-gray-200">
+      <div class="mt-10 pt-8">
         <div class="text-center">
-          <span class="text-lg text-gray-600">Total items to pack: </span>
-          <span class="text-2xl font-bold text-green-600">
+          <span class="text-xl text-gray-700">Total items to pack: </span>
+          <span class="text-3xl font-bold text-green-600">
             {packList.reduce((sum, item) => sum + item.count, 0)}
           </span>
         </div>
@@ -146,6 +150,3 @@
     </div>
   </div>
 </main>
-
-<style>
-</style>
