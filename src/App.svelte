@@ -11,7 +11,11 @@
 
   $: packList = calculatePackList(nights, temperature, swimming);
 
-  function calculatePackList(nights: number, temp: 'cold' | 'hot', hasSwimming: boolean): PackItem[] {
+  function calculatePackList(
+    nights: number,
+    temp: 'cold' | 'hot',
+    hasSwimming: boolean,
+  ): PackItem[] {
     // Base stats for 4 nights, cold, no swimming
     const baseNights = 4;
     const nightRatio = nights / baseNights;
@@ -23,6 +27,7 @@
     let shorts = Math.ceil(2 * nightRatio);
     let underpants = Math.ceil(4 * nightRatio);
     let socks = Math.ceil(4 * nightRatio);
+    let pyjamas = Math.ceil(2 * nightRatio);
     let hat = 1;
     let rainJacket = 1;
     let swimmers = 0;
@@ -50,20 +55,26 @@
       { name: 'Shorts', emoji: '🩳', count: shorts },
       { name: 'Underpants', emoji: '🩲', count: underpants },
       { name: 'Pairs of Socks', emoji: '🧦', count: socks },
+      { name: 'Pyjamas', emoji: '🧶', count: pyjamas },
       { name: 'Hat', emoji: '🧢', count: hat },
       { name: 'Rain Jacket', emoji: '🧥', count: rainJacket },
       { name: 'Swimmers', emoji: '🩱', count: swimmers },
       { name: 'Towels', emoji: '🏖️', count: towels },
-    ].filter(item => item.count > 0);
+    ].filter((item) => item.count > 0);
   }
 </script>
 
-<main class="min-h-screen bg-gradient-to-br from-amber-100 via-green-100 to-sky-100 py-12 px-6 md:px-16">
+<main
+  class="min-h-screen bg-gradient-to-br from-amber-100 via-green-100 to-sky-100 py-12 px-6 md:px-16"
+>
   <div class="max-w-5xl mx-auto">
     <h1 class="text-5xl md:text-6xl font-bold text-center mb-6 text-green-700">
-      ⛺ Kids Camping Pack List
+      <img src="icon.svg" alt="" class="inline-block w-10 h-10 mr-3 align-middle" />
+      Kids Camping Pack List
     </h1>
-    <p class="text-center text-gray-700 mb-16 text-xl">Figure out what to pack for your adventure!</p>
+    <p class="text-center text-gray-700 mb-16 text-xl">
+      Figure out what to pack for your adventure!
+    </p>
 
     <!-- Input Controls -->
     <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-10 mb-12">
@@ -80,57 +91,65 @@
             max="14"
             bind:value={nights}
             class="w-full px-5 py-2 border-2 border-gray-300 rounded-xl focus:border-green-500 focus:outline-none text-lg"
-           
           />
         </div>
 
         <!-- Temperature -->
         <div>
-          <label class="block text-base font-bold text-gray-700 mb-3">
-            🌡️ Temperature
-          </label>
-          <div class="flex gap-3">
-            <button
-              class="flex-1 px-5 py-3 rounded-xl font-bold transition-all {temperature === 'cold' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
-              on:click={() => temperature = 'cold'}
-             
-            >
-              ❄️ Cold
-            </button>
-            <button
-              class="flex-1 px-5 py-3 rounded-xl font-bold transition-all {temperature === 'hot' ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
-              on:click={() => temperature = 'hot'}
-             
-            >
-              ☀️ Hot
-            </button>
-          </div>
+          <fieldset class="m-0 p-0 border-0">
+            <legend class="block text-base font-bold text-gray-700 mb-3">🌡️ Temperature</legend>
+            <div class="flex gap-3" role="radiogroup" aria-label="Temperature options">
+              <button
+                type="button"
+                aria-pressed={temperature === 'cold'}
+                class="flex-1 px-5 py-3 rounded-xl font-bold transition-all {temperature === 'cold'
+                  ? 'bg-blue-500 text-white shadow-lg'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+                on:click={() => (temperature = 'cold')}
+              >
+                ❄️ Cold
+              </button>
+              <button
+                type="button"
+                aria-pressed={temperature === 'hot'}
+                class="flex-1 px-5 py-3 rounded-xl font-bold transition-all {temperature === 'hot'
+                  ? 'bg-orange-500 text-white shadow-lg'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+                on:click={() => (temperature = 'hot')}
+              >
+                ☀️ Hot
+              </button>
+            </div>
+          </fieldset>
         </div>
 
         <!-- Swimming -->
         <div>
-          <label class="block text-base font-bold text-gray-700 mb-3">
-            🏊 Swimming?
-          </label>
-          <button
-            class="w-full px-5 py-3 rounded-xl font-bold transition-all {swimming ? 'bg-cyan-500 text-white shadow-lg' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
-            on:click={() => swimming = !swimming}
-           
-          >
-            {swimming ? '✅ Yes' : '❌ No'}
-          </button>
+          <fieldset class="m-0 p-0 border-0">
+            <legend class="block text-base font-bold text-gray-700 mb-3">🏊 Swimming?</legend>
+            <button
+              type="button"
+              aria-pressed={swimming}
+              class="w-full px-5 py-3 rounded-xl font-bold transition-all {swimming
+                ? 'bg-cyan-500 text-white shadow-lg'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+              on:click={() => (swimming = !swimming)}
+            >
+              {swimming ? '✅ Yes' : '❌ No'}
+            </button>
+          </fieldset>
         </div>
       </div>
     </div>
 
     <!-- Pack List Grid -->
     <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10">
-      <h2 class="text-3xl font-bold text-gray-800 mb-8">
-        📋 Your Packing List
-      </h2>
-      <div class="space-y-3">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">📋 Your Packing List</h2>
+      <div class=" grid grid-cols-1 md:grid-cols-2 gap-4">
         {#each packList as item}
-          <div class="grid grid-cols-3 gap-2 items-center bg-gradient-to-r from-yellow-50 via-green-50 to-blue-50 rounded-xl p-2">
+          <div
+            class="grid grid-cols-3 gap-2 items-center bg-gradient-to-r from-yellow-50 via-green-50 to-blue-50 rounded-xl p-2"
+          >
             <div class="text-4xl text-center">{item.emoji}</div>
             <div class="font-bold text-gray-800 text-xl">{item.name}</div>
             <div class="text-4xl font-bold text-green-600 text-center">{item.count}</div>
