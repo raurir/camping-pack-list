@@ -1,0 +1,22 @@
+{
+  // Format on save
+  "editor.formatOnSave": true,
+  // Use prettier as default formatter where available
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // Override for Svelte files: use the Svelte extension's formatter
+  "[svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  },
+  // Ensure TS/TSX use prettier
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Optional: auto-fix ESLint problems on save can be enabled manually in VS Code
+  // Svelte plugin settings
+  "svelte.plugin.typescript": {
+    "enable": true
+  }
+}

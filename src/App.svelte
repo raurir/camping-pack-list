@@ -1,7 +1,11 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
   let nights = 4;
   let temperature: 'cold' | 'hot' = 'cold';
   let swimming = false;
+  let deferredPrompt: any = null;
+  let showInstallButton = false;
 
   interface PackItem {
     name: string;
@@ -10,6 +14,37 @@
   }
 
   $: packList = calculatePackList(nights, temperature, swimming);
+
+  onMount(() => {
+    // Listen for the beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the default mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Store the event so it can be triggered later
+      deferredPrompt = e;
+      // Show the install button
+      showInstallButton = true;
+    });
+
+    // Check if app is already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      showInstallButton = false;
+    }
+  });
+
+  async function installPWA() {
+    if (!deferredPrompt) return;
+
+    // Show the install prompt
+    deferredPrompt.prompt();
+
+    // Wait for the user to respond to the prompt
+    const { outcome } = await deferredPrompt.userChoice;
+
+    // Clear the deferred prompt
+    deferredPrompt = null;
+    showInstallButton = false;
+  }
 
   function calculatePackList(
     nights: number,
@@ -72,9 +107,21 @@
       <img src="icon.svg" alt="" class="inline-block w-10 h-10 mr-3 align-middle" />
       Kids Camping Pack List
     </h1>
-    <p class="text-center text-gray-700 mb-16 text-xl">
+    <p class="text-center text-gray-700 mb-8 text-xl">
       Figure out what to pack for your adventure!
     </p>
+
+    <!-- Install PWA Button -->
+    {#if showInstallButton}
+      <div class="text-center mb-8">
+        <button
+          on:click={installPWA}
+          class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all transform hover:scale-105"
+        >
+          📱 Install App
+        </button>
+      </div>
+    {/if}
 
     <!-- Input Controls -->
     <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-10 mb-12">
@@ -167,5 +214,11 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="text-center mt-8 text-gray-600 text-sm">
+    Made <a
+      href="https://github.com/raurir"
+      class="text-green-600 hover:text-green-700 font-semibold underline">raurir</a
+    > using AI
   </div>
 </main>

@@ -7,18 +7,3 @@ const app = mount(App, {
 });
 
 export default app;
-
-// Register service worker for PWA support if available
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then((reg) => {
-        // registration worked
-        console.log('ServiceWorker registration successful with scope: ', reg.scope);
-      })
-      .catch((err) => {
-        console.warn('ServiceWorker registration failed: ', err);
-      });
-  });
-}

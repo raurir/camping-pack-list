@@ -1,16 +1,11 @@
 const CACHE_NAME = 'camp-pack-v1';
-const OFFLINE_URL = '/';
+const BASE_URL = '/camping/';
+const OFFLINE_URL = BASE_URL;
 
-const PRECACHE = [
-  OFFLINE_URL,
-  '/index.html',
-  '/icon.svg'
-];
+const PRECACHE = [OFFLINE_URL, BASE_URL + 'index.html', BASE_URL + 'icon.svg'];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE)));
   self.skipWaiting();
 });
 
@@ -20,9 +15,9 @@ self.addEventListener('activate', (event) => {
       Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) return caches.delete(key);
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
   self.clients.claim();
 });
@@ -40,6 +35,6 @@ self.addEventListener('fetch', (event) => {
           return res;
         })
         .catch(() => caches.match(OFFLINE_URL));
-    })
+    }),
   );
 });

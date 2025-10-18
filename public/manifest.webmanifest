@@ -2,13 +2,14 @@
   "name": "Kids Camping Pack List",
   "short_name": "Camp Pack",
   "description": "A small app to help kids pack for camping trips.",
-  "start_url": "/",
+  "start_url": "/camping/",
+  "scope": "/camping/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1f2937",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "icon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }
